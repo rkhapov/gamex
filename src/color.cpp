@@ -35,6 +35,7 @@ sgl::Color::Color(const std::string &name)
 sgl::Color::~Color()
 {
     delete _color;
+    _color = nullptr;
 }
 
 void sgl::Color::setFromMap(unsigned char r, unsigned char g, unsigned char b)

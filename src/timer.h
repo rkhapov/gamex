@@ -98,7 +98,7 @@ namespace sgl
     {
         if (speed <= 0)
         {
-            std::string msg = constructMessage("Timer speed parameter must be positive but not [%f]", speed);
+            std::string msg = gamex::constructMessage("Timer speed parameter must be positive but not [%f]", speed);
 
             throw TimerErrorException(msg);
         }

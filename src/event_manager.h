@@ -501,7 +501,7 @@ namespace sgl
         {
             if (_keyDownHandler != nullptr)
             {
-                (*_keyDownHandler)(convertToLowerCase(
+                (*_keyDownHandler)(gamex::convertToLowerCase(
                                     al_keycode_to_name(event.keyboard.keycode)));
                 return true;
             }
@@ -510,7 +510,7 @@ namespace sgl
         {
             if (_keyUpHandler != nullptr)
             {
-                (*_keyUpHandler)(convertToLowerCase(
+                (*_keyUpHandler)(gamex::convertToLowerCase(
                                     al_keycode_to_name(event.keyboard.keycode)));
                 return true;
             }

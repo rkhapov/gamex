@@ -57,6 +57,7 @@ sgl::Font::Font(const Font &font)
 sgl::Font::~Font()
 {
     al_destroy_font(_font);
+    _font = nullptr;
 }
 
 

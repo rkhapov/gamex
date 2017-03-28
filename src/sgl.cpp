@@ -12,7 +12,7 @@
     throw sgl::AllegroInitializeErrorException(gamex::\
     constructMessage("Fatal Error: %s() returned false", #fname))
 
-void sgl::initializeGraphics()
+void sgl::initialize()
 {
     if (!al_init())
         THROW_ALLEGRO_INITIALIZE_EXCEPTION(al_init);
@@ -31,7 +31,7 @@ void sgl::initializeGraphics()
 }
 
 
-void sgl::shutdownGraphics()
+void sgl::shutdown()
 {
     al_shutdown_font_addon();
     al_shutdown_image_addon();

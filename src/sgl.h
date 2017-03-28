@@ -11,6 +11,9 @@
 #include "image.h"
 #include "color.h"
 #include "font.h"
+#include "timer.h"
+#include "event_manager.h"
+#include "menu.h"
 
 namespace sgl
 {
@@ -23,8 +26,8 @@ namespace sgl
         {}
     };
 
-    void initializeGraphics();
-    void shutdownGraphics();
+    void initialize();
+    void shutdown();
 }
 
 #endif // GRAPHICS_H

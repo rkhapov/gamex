@@ -16,7 +16,9 @@ SOURCES += \
     src/my_string.cpp \
     src/vector.cpp \
     src/window.cpp \
-    src/sgl.cpp
+    src/sgl.cpp \
+    src/menu.cpp \
+    src/text_printer.cpp
 
 HEADERS += \
     src/color.h \
@@ -29,4 +31,5 @@ HEADERS += \
     src/vector.h \
     src/window.h \
     src/sgl.h \
-    src/menu.h
+    src/menu.h \
+    src/text_printer.h

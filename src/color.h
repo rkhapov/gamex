@@ -16,6 +16,7 @@ namespace sgl
     public:
         Color();
         Color(const std::string &name);
+        Color(const Color &color);
         Color(ALLEGRO_COLOR color);
         Color(unsigned char r, unsigned char g, unsigned char b);
         ~Color();
@@ -36,8 +37,12 @@ namespace sgl
 
         operator ALLEGRO_COLOR() const;
 
+        Color& operator =(const Color &color);
+
     private:
         ALLEGRO_COLOR *_color;
+
+        void _copyFrom(const Color &color);
     };
 }
 

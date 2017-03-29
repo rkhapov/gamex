@@ -17,6 +17,8 @@ int main()
     sgl::Font font("./font/font.ttf", 15);
     sgl::Color color("green");
 
-    std::cout << menu.run(sgl::TextPrinter(w, color, font)) << std::endl;
+    sgl::TextPrinter textPrinter(w, color, font);
+
+    std::cout << menu.run(textPrinter) << std::endl;
     return 0;
 }

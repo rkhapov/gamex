@@ -4,11 +4,24 @@
 #include "color.h"
 #include "my_string.h"
 
+void sgl::Color::_copyFrom(const Color &color)
+{
+    setR(color.getR());
+    setB(color.getB());
+    setG(color.getG());
+}
+
 sgl::Color::Color()
 {
     _color = new ALLEGRO_COLOR;
 
     *_color = al_color_name("black");
+}
+
+sgl::Color::Color(const Color &color)
+{
+    _color = new ALLEGRO_COLOR;
+    _copyFrom(color);
 }
 
 sgl::Color::Color(ALLEGRO_COLOR color)
@@ -92,4 +105,11 @@ void sgl::Color::setG(unsigned char g)
 sgl::Color::operator ALLEGRO_COLOR() const
 {
     return *_color;
+}
+
+sgl::Color& sgl::Color::operator = (const Color &color)
+{
+    if (this != &color)
+        _copyFrom(color);
+    return *this;
 }

@@ -6,6 +6,7 @@
 #include <stdexcept>
 
 #include "color.h"
+#include "image.h"
 
 class ALLEGRO_DISPLAY;
 class ALLEGRO_MOUSE_CURSOR;
@@ -17,8 +18,6 @@ class ALLEGRO_MOUSE_CURSOR;
 
 namespace sgl
 {
-    class Image;
-
     class Window
     {
     public:

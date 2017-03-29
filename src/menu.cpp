@@ -57,26 +57,71 @@ private:
 
 
 
-void sgl::Menu::_printItems(int beginNo, int endNo, int currentNo,
+void sgl::Menu::_printItems(int beginNo, int endNo, int currentItemNo,
                             const TextPrinter &textPrinter,
-                            int starty, int indent) const
+                            int starty, int flag) const
 {
-    for (int i = beginNo; i <= endNo; i++)
+    for (int i = beginNo;
+         i <= endNo && i < static_cast<int>(_items.size());
+         i++)
     {
-        auto ycord = starty + (i - beginNo) * (indent + textPrinter.getFont().getLineHeight());
-        auto xcord = textPrinter.getTargetWindow().getWidth() / 2;
+        std::string itemText = _items[i];
+        if (i == currentItemNo)
+        {
+            if (flag != LEFT)
+                itemText = ">" + itemText;
+            else
+                itemText += "<";
+        }
 
-        if (i == currentNo)
-            textPrinter.drawText("->" + _items[i], xcord, ycord, Font::ALIGN_CENTER);
+        int ycord = starty + (i - beginNo) * (_indent + textPrinter.getFont().getLineHeight());
+        int xcord;
+
+        int printerFlag = 0;
+
+        if (flag == LEFT)
+        {
+            xcord = 0;
+        }
+        else if (flag == CENTER)
+        {
+            xcord = textPrinter.getTargetWindow().getWidth() / 2;
+            printerFlag = Font::ALIGN_CENTER;
+        }
         else
-            textPrinter.drawText(_items[i], xcord, ycord, Font::ALIGN_CENTER);
+        {
+            xcord = textPrinter.getTargetWindow().getWidth() - 1;
+            printerFlag = Font::ALIGN_RIGHT;
+        }
+
+        textPrinter.drawText(itemText, xcord, ycord, printerFlag);
     }
 }
 
 
+void sgl::Menu::_printTitle(const TextPrinter &textPrinter, int flag) const
+{
+    int drawFlag = 0;
+    int xcord = 0;
+    if (flag == CENTER)
+    {
+        drawFlag = Font::ALIGN_CENTER;
+        xcord = textPrinter.getTargetWindow().getWidth() / 2;
+    }
+    else if (flag == RIGHT)
+    {
+        drawFlag = Font::ALIGN_RIGHT;
+        xcord = textPrinter.getTargetWindow().getWidth();
+    }
+    textPrinter.drawText(_title, xcord, 0, drawFlag);
+}
+
 sgl::Menu::Menu()
 {
-    _unexpectedKeyPreffix = "__";
+    _unexpectedKeyPreffix   = "__";
+    _windowBackgroundSaving = false;
+    _clearingColor          = Color("black");
+    _indent                 = 10;
 }
 
 
@@ -113,15 +158,40 @@ const std::string &sgl::Menu::getUnexpectedKeyPreffix() const
     return _unexpectedKeyPreffix;
 }
 
+void sgl::Menu::setTitle(const std::string &title)
+{
+    _title = title;
+}
+
+void sgl::Menu::clearWindowWithColor(const Color &color)
+{
+    _windowBackgroundSaving = false;
+    _clearingColor          = color;
+}
+
+void sgl::Menu::saveWindowBackground()
+{
+    _windowBackgroundSaving = true;
+}
+
+void sgl::Menu::setIndent(int indent)
+{
+    if (indent >= 0)
+        _indent = indent;
+}
 
 
+int sgl::Menu::getIndent() const
+{
+    return _indent;
+}
 
-std::string sgl::Menu::run(const TextPrinter &textPrinter) const
+std::string sgl::Menu::run(const TextPrinter &textPrinter, int flag) const
 {
     EventManager<EmptyEventHandler, KeyboardHandler,
-                 EmptyEventHandler, EmptyEventHandler,
-                 EmptyEventHandler, EmptyEventHandler,
-                 WindowCloseHandler> eventManager;
+            EmptyEventHandler, EmptyEventHandler,
+            EmptyEventHandler, EmptyEventHandler,
+            WindowCloseHandler> eventManager;
     KeyboardHandler    keyboardKeySaver;
     WindowCloseHandler windowCloseWatchmen;
     eventManager.setKeyDownHandler(keyboardKeySaver);
@@ -129,14 +199,26 @@ std::string sgl::Menu::run(const TextPrinter &textPrinter) const
                                        windowCloseWatchmen);
     windowCloseWatchmen.reset();
 
-    int currentNo = 0;
-    bool isUserInChoosing = true;
+    int currentItemNo       = 0;
+    int nitemsOnWindow      = (textPrinter.getTargetWindow().getHeight()
+                              - 2 * (textPrinter.getFont().getLineHeight() + _indent)) /
+                              (textPrinter.getFont().getLineHeight() + _indent);
+    int pageSize            = nitemsOnWindow;
+    int currentPage         = 0;
+    bool isUserInChoosing   = true;
+
+    Image background = textPrinter.getTargetWindow().getBackBufferImage();
 
     while (isUserInChoosing)
     {
-        textPrinter.getTargetWindow().clear(Color("black"));
-        _printItems(0, static_cast<int>(_items.size() - 1),
-                    currentNo, textPrinter, 0, 10);
+        if (_windowBackgroundSaving)
+            background.draw(textPrinter.getTargetWindow(), 0, 0);
+        else
+            textPrinter.getTargetWindow().clear(_clearingColor);
+        _printTitle(textPrinter, flag);
+        _printItems(currentPage * pageSize, (currentPage + 1) * pageSize,
+                    currentItemNo, textPrinter,
+                    textPrinter.getFont().getLineHeight() + _indent, flag);
         textPrinter.getTargetWindow().flip();
 
         eventManager.waitForNextEvent();
@@ -146,13 +228,31 @@ std::string sgl::Menu::run(const TextPrinter &textPrinter) const
         }
         else if (keyboardKeySaver.getPressedKey() == UP_KEY_NAME)
         {
-            if (currentNo != 0)
-                currentNo--;
+            if (currentItemNo != 0)
+            {
+                currentItemNo--;
+                if (currentItemNo < currentPage * pageSize)
+                    currentPage--;
+            }
+            else
+            {
+                currentItemNo   = static_cast<int>(_items.size() - 1);
+                currentPage     = currentItemNo / pageSize;
+            }
         }
         else if (keyboardKeySaver.getPressedKey() == DOWN_KEY_NAME)
         {
-            if (currentNo != static_cast<int>(_items.size() - 1))
-                currentNo++;
+            if (currentItemNo != static_cast<int>(_items.size() - 1))
+            {
+                currentItemNo++;
+                if (currentItemNo > (currentPage + 1) * pageSize)
+                    currentPage++;
+            }
+            else
+            {
+                currentItemNo = 0;
+                currentPage   = 0;
+            }
         }
         else if (keyboardKeySaver.getPressedKey() == ENTER_KEY_NAME)
         {
@@ -164,5 +264,5 @@ std::string sgl::Menu::run(const TextPrinter &textPrinter) const
         }
     }
 
-    return _items[currentNo];
+    return _items[currentItemNo];
 }

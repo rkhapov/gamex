@@ -5,6 +5,7 @@
 
 #include "color.h"
 #include "font.h"
+#include "window.h"
 
 namespace sgl
 {

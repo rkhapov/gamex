@@ -18,7 +18,8 @@ SOURCES += \
     src/window.cpp \
     src/sgl.cpp \
     src/menu.cpp \
-    src/text_printer.cpp
+    src/text_printer.cpp \
+    src/animation.cpp
 
 HEADERS += \
     src/color.h \
@@ -32,4 +33,5 @@ HEADERS += \
     src/window.h \
     src/sgl.h \
     src/menu.h \
-    src/text_printer.h
+    src/text_printer.h \
+    src/animation.h

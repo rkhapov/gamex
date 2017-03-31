@@ -1,8 +1,8 @@
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#ifndef SGL_H
+#define SGL_H
 
 /*
- * graphics.h - allegro graphics wrappers and other graphic classes
+ * sgl.h - allegro graphics wrappers and other graphics classes
 */
 
 #include <stdexcept>
@@ -14,6 +14,7 @@
 #include "timer.h"
 #include "event_manager.h"
 #include "menu.h"
+#include "animation.h"
 
 namespace sgl
 {
@@ -30,5 +31,5 @@ namespace sgl
     void shutdown();
 }
 
-#endif // GRAPHICS_H
+#endif // SGL_H
 

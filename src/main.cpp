@@ -1,23 +1,20 @@
-#include <iostream>
-
 #include "sgl.h"
+
+using namespace sgl;
 
 int main()
 {
-    sgl::initialize();
+    initialize();
+    Window w(400, 500);
+    Animation a(".");
 
-    sgl::Window w(1000, 600);
-
-    sgl::Menu menu;
-    for (int i = 0; i < 50; i++)
-        menu.addItem(gamex::constructMessage("item%d", i));
-    menu.setTitle("leeel menu realized :p");
-
-    sgl::Font font("./font/font.ttf", 25);
-    sgl::Color color("green");
-
-    sgl::TextPrinter textPrinter(w, color, font);
-
-    std::cout << menu.run(textPrinter, sgl::Menu::RIGHT) << std::endl;
+    while (true)
+    {
+        w.clear(Color("black"));
+        a.getCurrentFrame().draw(w, 0, 0);
+        w.flip();
+        al_rest(1);
+        a.goNextFrame();
+    }
     return 0;
 }

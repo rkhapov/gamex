@@ -13,7 +13,7 @@ int main()
         w.clear(Color("black"));
         a.getCurrentFrame().draw(w, 0, 0);
         w.flip();
-        al_rest(1);
+        delay(1);
         a.goNextFrame();
     }
     return 0;

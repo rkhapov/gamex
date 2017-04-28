@@ -41,3 +41,8 @@ void sgl::shutdown()
     al_uninstall_mouse();
     al_uninstall_system();
 }
+
+void sgl::delay(double seconds)
+{
+    al_rest(seconds);
+}

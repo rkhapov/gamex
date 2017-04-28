@@ -29,6 +29,8 @@ namespace sgl
 
     void initialize();
     void shutdown();
+
+    void delay(double seconds);
 }
 
 #endif // SGL_H

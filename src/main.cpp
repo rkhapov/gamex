@@ -1,20 +1,30 @@
-#include "sgl.h"
+#include <iostream>
 
-using namespace sgl;
+#include "map.h"
 
 int main()
 {
-    initialize();
-    Window w(400, 500);
-    Animation a(".");
+    gamex::Map m1(5, 5);
 
-    while (true)
+    for (int i = 0; i < 5; i++)
     {
-        w.clear(Color("black"));
-        a.getCurrentFrame().draw(w, 0, 0);
-        w.flip();
-        delay(1);
-        a.goNextFrame();
+        for (int j = 0; j < 5; j++)
+        {
+            m1.get(i, j).setType(5);
+        }
     }
+
+    m1.writeToFile("map1.mp");
+
+    gamex::Map m2("map1.mp");
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+            std::cout << m2.get(i, j).getType() << " ";
+        std::cout << std::endl;
+    }
+
+
     return 0;
 }

@@ -36,4 +36,5 @@ HEADERS += \
     src/menu.h \
     src/text_printer.h \
     src/animation.h \
-    src/map.h
+    src/map.h \
+    src/matrix.h

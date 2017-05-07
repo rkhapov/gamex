@@ -3,11 +3,21 @@
 
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 #include "sgl.h"
+#include "matrix.h"
 
 namespace gamex
 {
+    class MapErrorException: public std::runtime_error
+    {
+    public:
+        MapErrorException(const std::string &msg):
+            runtime_error(msg)
+        {}
+    };
+
     class Map
     {
     public:
@@ -46,15 +56,13 @@ namespace gamex
 
 
         std::pair<int, int> getSize() const;
+        void resize(int n, int m);
 
         Cell& get(int i, int j);
         const Cell& get(int i, int j) const;
 
-
     private:
-        Cell **_map;
-        int _n;
-        int _m;
+        Matrix<Cell> _map;
     };
 }
 

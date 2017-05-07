@@ -3,7 +3,10 @@
 
 #include "my_string.h"
 
-thread_local char gamex::buffer[gamex::BUFFER_SIZE];
+
+const int BUFFER_SIZE = 500;
+thread_local char buffer[BUFFER_SIZE];
+
 
 std::string gamex::constructMessage(const char *format, ...)
 {

@@ -216,4 +216,3 @@ namespace sgl
 }
 
 #endif // TIMER_H
-

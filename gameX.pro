@@ -20,7 +20,8 @@ SOURCES += \
     src/menu.cpp \
     src/text_printer.cpp \
     src/animation.cpp \
-    src/map.cpp
+    src/map.cpp \
+    src/player.cpp
 
 HEADERS += \
     src/color.h \
@@ -37,4 +38,5 @@ HEADERS += \
     src/text_printer.h \
     src/animation.h \
     src/map.h \
-    src/matrix.h
+    src/matrix.h \
+    src/player.h

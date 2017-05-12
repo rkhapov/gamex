@@ -21,7 +21,8 @@ SOURCES += \
     src/text_printer.cpp \
     src/animation.cpp \
     src/map.cpp \
-    src/player.cpp
+    src/player.cpp \
+    src/character.cpp
 
 HEADERS += \
     src/color.h \
@@ -39,4 +40,5 @@ HEADERS += \
     src/animation.h \
     src/map.h \
     src/matrix.h \
-    src/player.h
+    src/player.h \
+    src/character.h

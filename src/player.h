@@ -1,28 +1,16 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "cords.h"
-#include "vector.h"
+#include "character.h"
 
 namespace gamex
 {
-    class Player
+    class Player: public Character
     {
     public:
-        Player();
-        Player(int health, Cords cords, Vector velocity);
-        void setCords(Cords cords);
-        void setHealth(int health);
-        void setVelocity(Vector velocity);
-
-        Cords getCords() const;
-        int getHealth() const;
-        Vector getVelocity() const;
-
-    private:
-        int _health;
-        Cords _cords;
-        Vector _velocity;
+        Player(): Character() {}
+        Player(int health, Cords cords, Vector velocity):
+            Character(int health, Cords cords, Vector velocity) {}
     }
 }
 

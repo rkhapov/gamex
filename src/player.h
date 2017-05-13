@@ -8,10 +8,9 @@ namespace gamex
     class Player: public Character
     {
     public:
-        Player(): Character() {}
-        Player(int health, Cords cords, Vector velocity):
-            Character(int health, Cords cords, Vector velocity) {}
-    }
+        Player();
+        Player(int health, Cords cords, Vector velocity);
+    };
 }
 
 #endif // PLAYER_H

@@ -22,7 +22,8 @@ SOURCES += \
     src/animation.cpp \
     src/map.cpp \
     src/player.cpp \
-    src/character.cpp
+    src/character.cpp \
+    src/cfgmanager.cpp
 
 HEADERS += \
     src/color.h \
@@ -41,4 +42,5 @@ HEADERS += \
     src/map.h \
     src/matrix.h \
     src/player.h \
-    src/character.h
+    src/character.h \
+    src/cfgmanager.h

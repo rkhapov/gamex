@@ -1,30 +1,27 @@
 #include <iostream>
 
-#include "map.h"
+
+#include "cfgmanager.h"
+
 
 int main()
 {
-    gamex::Map m1(5, 5);
+    gamex::CfgManager m1;
 
-    for (int i = 0; i < 5; i++)
-    {
-        for (int j = 0; j < 5; j++)
-        {
-            m1.get(i, j).setType(5);
-        }
-    }
+    m1.addKey("noski");
+    m1.addValue("noski", "n1");
+    m1.addValue("noski", "n2");
 
-    m1.writeToFile("map1.mp");
+    m1.addValue("leel", "l1");
 
-    gamex::Map m2("map1.mp");
+    m1.save("conf.txt");
 
-    for (int i = 0; i < 5; i++)
-    {
-        for (int j = 0; j < 5; j++)
-            std::cout << m2.get(i, j).getType() << " ";
-        std::cout << std::endl;
-    }
+    gamex::CfgManager m2("conf.txt");
 
+    std::cout << m2.hasKey("leel") << std::endl;
+    std::cout << m2.hasKey("noski") << std::endl;
+    std::cout << m2.hasValue("leel", "l1") << std::endl;
+    std::cout << m2.hasValue("leel", "l2") << std::endl;
 
     return 0;
 }

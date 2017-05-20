@@ -55,6 +55,8 @@ namespace gamex
             _type(type)
         {}
 
+        int type() const { return _type; }
+
     private:
         int _type;
     };

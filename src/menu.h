@@ -35,6 +35,15 @@ namespace sgl
         enum { LEFT, RIGHT, CENTER, CENTRE = CENTER };
         std::string run(const TextPrinter &textPrinter, int flag = LEFT) const;
 
+
+        static void setUpKeyName(const std::string &name);
+        static void setDownKeyName(const std::string &name);
+        static void setEnterKeyName(const std::string &name);
+        const std::string &getUpKeyName();
+        const std::string &getDownKeyName();
+        const std::string &getEnterKeyName();
+
+
     private:
         std::vector<std::string> _items;
         std::string _unexpectedKeyPreffix;
@@ -47,6 +56,10 @@ namespace sgl
                          const TextPrinter &textPrinter,
                          int starty, int flag) const;
         void _printTitle(const TextPrinter &textPrinter, int flag) const;
+
+        static std::string _upKeyName;
+        static std::string _downKeyName;
+        static std::string _enterKeyName;
     };
 }
 

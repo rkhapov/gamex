@@ -18,17 +18,18 @@ class ALLEGRO_MOUSE_CURSOR;
 
 namespace sgl
 {
+
+    class WindowErrorException: public std::runtime_error
+    {
+    public:
+        WindowErrorException(const std::string &msg):
+            runtime_error(msg)
+        {}
+    };
+
     class Window
     {
     public:
-
-        class WindowErrorException: public std::runtime_error
-        {
-        public:
-            WindowErrorException(const std::string &msg):
-                runtime_error(msg)
-            {}
-        };
 
         Window(int width, int height);
         ~Window();

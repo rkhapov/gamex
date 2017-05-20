@@ -5,9 +5,9 @@
 #include "menu.h"
 #include "event_manager.h"
 
-const std::string UP_KEY_NAME    = "up";
-const std::string DOWN_KEY_NAME  = "down";
-const std::string ENTER_KEY_NAME = "return";
+std::string sgl::Menu::_upKeyName    = "up";
+std::string sgl::Menu::_downKeyName  = "down";
+std::string sgl::Menu::_enterKeyName = "return";
 
 
 class KeyboardHandler
@@ -226,7 +226,7 @@ std::string sgl::Menu::run(const TextPrinter &textPrinter, int flag) const
         {
             return "";
         }
-        else if (keyboardKeySaver.getPressedKey() == UP_KEY_NAME)
+        else if (keyboardKeySaver.getPressedKey() == _upKeyName)
         {
             if (currentItemNo != 0)
             {
@@ -240,7 +240,7 @@ std::string sgl::Menu::run(const TextPrinter &textPrinter, int flag) const
                 currentPage     = currentItemNo / pageSize;
             }
         }
-        else if (keyboardKeySaver.getPressedKey() == DOWN_KEY_NAME)
+        else if (keyboardKeySaver.getPressedKey() == _downKeyName)
         {
             if (currentItemNo != static_cast<int>(_items.size() - 1))
             {
@@ -254,7 +254,7 @@ std::string sgl::Menu::run(const TextPrinter &textPrinter, int flag) const
                 currentPage   = 0;
             }
         }
-        else if (keyboardKeySaver.getPressedKey() == ENTER_KEY_NAME)
+        else if (keyboardKeySaver.getPressedKey() == _enterKeyName)
         {
             isUserInChoosing = false;
         }
@@ -265,4 +265,34 @@ std::string sgl::Menu::run(const TextPrinter &textPrinter, int flag) const
     }
 
     return _items[currentItemNo];
+}
+
+void sgl::Menu::setDownKeyName(const std::string &name)
+{
+    _downKeyName = name;
+}
+
+void sgl::Menu::setUpKeyName(const std::string &name)
+{
+    _upKeyName = name;
+}
+
+void sgl::Menu::setEnterKeyName(const std::string &name)
+{
+    _enterKeyName = name;
+}
+
+const std::string& sgl::Menu::getUpKeyName()
+{
+    return _upKeyName;
+}
+
+const std::string& sgl::Menu::getDownKeyName()
+{
+    return _downKeyName;
+}
+
+const std::string& sgl::Menu::getEnterKeyName()
+{
+    return _enterKeyName;
 }

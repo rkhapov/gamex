@@ -3,58 +3,6 @@
 
 #include "map.h"
 
-const std::string gamex::Map::Cell::imageDirPath = "./img/map/cells/";
-
-
-gamex::Map::Cell::Cell():
-    _image(imageDirPath + "empty.jpg")
-{
-    setType(EMPTY);
-}
-
-gamex::Map::Cell::Cell(int type):
-    _image(imageDirPath + "empty.jpg")
-{
-    setType(type);
-}
-
-int gamex::Map::Cell::getType() const
-{
-    return _type;
-}
-
-void gamex::Map::Cell::setType(int type)
-{
-    switch (type)
-    {
-    case WATER:
-        _image = sgl::Image(imageDirPath + "water.jpg");
-        break;
-
-    case SKY:
-        _image = sgl::Image(imageDirPath + "sky.jpg");
-        break;
-
-     case GROUND:
-        _image = sgl::Image(imageDirPath + "ground.jpg");
-        break;
-
-    case EMPTY:
-    default:
-        type = EMPTY;
-        _image = sgl::Image(imageDirPath + "empty.jpg");
-        break;
-    }
-
-    _type = type;
-}
-
-const sgl::Image& gamex::Map::Cell::getImage() const
-{
-    return _image;
-}
-
-
 gamex::Map::Map(int n, int m):
     _map(n, m)
 {
@@ -67,9 +15,14 @@ gamex::Map::Map(const std::string &path):
 }
 
 
-std::pair<int, int> gamex::Map::getSize() const
+int gamex::Map::getHeight() const
 {
-    return _map.getSize();
+    return _map.getSize().first;
+}
+
+int gamex::Map::getWidth() const
+{
+    return _map.getSize().second;
 }
 
 void gamex::Map::resize(int n, int m)
@@ -77,14 +30,22 @@ void gamex::Map::resize(int n, int m)
     _map.resize(n, m);
 }
 
-gamex::Map::Cell& gamex::Map::get(int i, int j)
+int gamex::Map::get(int i, int j) const
 {
     return _map.get(i, j);
 }
 
-const gamex::Map::Cell& gamex::Map::get(int i, int j) const
+void gamex::Map::set(int i, int j, int type)
 {
-    return _map.get(i, j);
+    if (type != EMPTY &&
+        type != GROUND &&
+        type != SKY &&
+        type != WATER)
+    {
+        throw MapErrorException(constructMessage("Unknown cell type: %d", type));
+    }
+
+    _map.set(i, j, type);
 }
 
 
@@ -114,7 +75,7 @@ void gamex::Map::writeToFile(const std::string &path)
     {
         for (int j = 0; j < size.second; j++)
         {
-            int type = _map.get(i, j).getType();
+            int type = _map.get(i, j);
             file.write(reinterpret_cast<char*>(&type), sizeof(int));
 
             if (!file.good())
@@ -148,7 +109,7 @@ void gamex::Map::loadFromFile(const std::string &path)
     }
 
 
-    Matrix<Cell> map(n, m);
+    Matrix<int> map(n, m);
 
     for (int i = 0; i < n; i++)
     {
@@ -157,7 +118,7 @@ void gamex::Map::loadFromFile(const std::string &path)
             int type;
             file.read(reinterpret_cast<char*>(&type), sizeof(int));
 
-            map.get(i, j).setType(type);
+            map.set(i, j, type);
 
             if (!file.good())
             {

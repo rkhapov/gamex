@@ -24,30 +24,12 @@ namespace gamex
         Map(int n, int m);
         Map(const std::string &path);
 
-        class Cell
+        enum
         {
-        public:
-            enum
-            {
-                EMPTY,
-                SKY,
-                WATER,
-                GROUND
-            };
-
-            Cell();
-            Cell(int type);
-
-            int getType() const;
-            void setType(int type);
-
-            static const std::string imageDirPath;
-
-            const sgl::Image &getImage() const;
-
-        private:
-            int _type;
-            sgl::Image _image;
+            EMPTY,
+            SKY,
+            WATER,
+            GROUND
         };
 
 
@@ -55,14 +37,17 @@ namespace gamex
         void writeToFile(const std::string &path);
 
 
-        std::pair<int, int> getSize() const;
+        int getWidth() const;
+        int getHeight() const;
         void resize(int n, int m);
 
-        Cell& get(int i, int j);
-        const Cell& get(int i, int j) const;
+        int get(int i, int j) const;
+        void set(int i, int j, int type);
+
+        int getPointType(int x, int y) const;
 
     private:
-        Matrix<Cell> _map;
+        Matrix<int> _map;
     };
 }
 
